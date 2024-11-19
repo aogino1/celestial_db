@@ -50,7 +50,7 @@ SET default_table_access_method = heap;
 CREATE TABLE public.black_hole (
     black_hole_id integer NOT NULL,
     name character varying(255),
-    mass numeric(30,10),
+    mass numeric(30,10) NOT NULL,
     type character varying(100),
     galaxy_id integer,
     is_supermassive boolean,
@@ -91,7 +91,7 @@ CREATE TABLE public.galaxy (
     name character varying(255),
     description text,
     number_of_planets integer,
-    age_in_million_years integer,
+    age_in_million_years integer NOT NULL,
     has_planets boolean
 );
 
@@ -126,7 +126,7 @@ ALTER SEQUENCE public.galaxy_galaxy_id_seq OWNED BY public.galaxy.galaxy_id;
 
 CREATE TABLE public.moon (
     moon_id integer NOT NULL,
-    name character varying,
+    name character varying(255),
     description text,
     diameter integer NOT NULL,
     distance_from_planet_km integer,
@@ -166,7 +166,7 @@ CREATE TABLE public.planet (
     planet_id integer NOT NULL,
     name character varying,
     description text,
-    diameter integer,
+    diameter integer NOT NULL,
     orbital_period_days integer,
     mass numeric(30,2),
     galaxy_name character varying,
@@ -207,7 +207,7 @@ CREATE TABLE public.star (
     name character varying,
     description text,
     age_in_million_years integer,
-    diameter integer,
+    diameter integer NOT NULL,
     is_active boolean,
     has_planets boolean,
     galaxy_id integer
@@ -277,6 +277,9 @@ ALTER TABLE ONLY public.star ALTER COLUMN star_id SET DEFAULT nextval('public.st
 -- Data for Name: black_hole; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
+INSERT INTO public.black_hole VALUES (1, 'Sagittarius A*', 4300000.0000000000, 'Supermassive', 1, true, 12.00000);
+INSERT INTO public.black_hole VALUES (2, 'Andromeda Central', 110000000.0000000000, 'Supermassive', 2, true, 200.00000);
+INSERT INTO public.black_hole VALUES (3, 'Cartwheel BH1', 50000.0000000000, 'Intermediate', 5, false, 0.50000);
 
 
 --
@@ -295,29 +298,26 @@ INSERT INTO public.galaxy VALUES (6, 'Black Eye Galaxy', 'Known for its dark ban
 -- Data for Name: moon; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-INSERT INTO public.moon VALUES (1, 'Sirius Luna', 'Rocky metallic moon with crater-filled surface', 3200, 380000, 1);
-INSERT INTO public.moon VALUES (2, 'Sirius Gamma', 'Small captured asteroid-like satellite', 1100, 120000, 1);
-INSERT INTO public.moon VALUES (3, 'Sirius Omega', 'Icy moon with subsurface ocean', 5600, 680000, 2);
-INSERT INTO public.moon VALUES (4, 'Sirius Delta', 'Volcanic moon with sulfur-rich surface', 4200, 520000, 2);
-INSERT INTO public.moon VALUES (5, 'Betelgeuse Alpha', 'Gas-shrouded moon with dense atmosphere', 6800, 920000, 3);
-INSERT INTO public.moon VALUES (6, 'Betelgeuse Beta', 'Frozen moon with methane ice caps', 3900, 450000, 3);
-INSERT INTO public.moon VALUES (7, 'Betelgeuse Gamma', 'Tidally heated moon with extreme volcanic activity', 5200, 750000, 3);
-INSERT INTO public.moon VALUES (8, 'Betelgeuse Epsilon', 'Small rocky moon with impact craters', 1500, 180000, 4);
-INSERT INTO public.moon VALUES (9, 'Proxima Luna', 'Tidally locked moon with one side always facing planet', 2800, 310000, 5);
-INSERT INTO public.moon VALUES (10, 'Proxima Horizon', 'Dwarf moon with unique orbital resonance', 1200, 95000, 5);
-INSERT INTO public.moon VALUES (11, 'Proxima Shadow', 'Dark, carbon-rich moon', 3600, 540000, 6);
-INSERT INTO public.moon VALUES (12, 'Proxima Drift', 'Irregularly shaped captured asteroid', 900, 75000, 6);
-INSERT INTO public.moon VALUES (13, 'Vega Sentinel', 'Massive moon with complex ring system', 7200, 1100000, 7);
-INSERT INTO public.moon VALUES (14, 'Vega Storm', 'Turbulent moon with intense atmospheric phenomena', 5800, 880000, 7);
-INSERT INTO public.moon VALUES (15, 'Vega Whisper', 'Smallest moon with unique crystalline surface', 1800, 220000, 7);
-INSERT INTO public.moon VALUES (16, 'Vega Echo', 'Volcanic moon with active geysers', 4500, 610000, 8);
-INSERT INTO public.moon VALUES (17, 'Vega Spark', 'Electromagnetic moon with unusual magnetic properties', 2600, 350000, 8);
-INSERT INTO public.moon VALUES (18, 'Aldebaran Nova', 'Molten moon constantly reshaped by tidal forces', 3300, 420000, 9);
-INSERT INTO public.moon VALUES (19, 'Aldebaran Pulse', 'Rapidly orbiting moon with eccentric path', 2100, 260000, 9);
-INSERT INTO public.moon VALUES (20, 'Aldebaran Frost', 'Frozen moon with nitrogen ice plains', 4700, 690000, 10);
-INSERT INTO public.moon VALUES (21, 'Antares Titan', 'Massive moon larger than some planets', 9600, 1500000, 11);
-INSERT INTO public.moon VALUES (22, 'Antares Whisper', 'Ethereal moon with translucent atmosphere', 5400, 820000, 11);
-INSERT INTO public.moon VALUES (23, 'Antares Guardian', 'Rocky moon with extensive cave systems', 3700, 490000, 12);
+INSERT INTO public.moon VALUES (1, 'Sirius I', 'Small rocky moon with volcanic activity', 3500, 45000, 1);
+INSERT INTO public.moon VALUES (2, 'Sirius II', 'Ice-covered moon with liquid oceans underneath', 4000, 50000, 1);
+INSERT INTO public.moon VALUES (3, 'Sirius III', 'A large moon with deep craters', 8000, 70000, 1);
+INSERT INTO public.moon VALUES (4, 'Sirius IV', 'Moon with a thin atmosphere and occasional auroras', 5000, 60000, 1);
+INSERT INTO public.moon VALUES (5, 'Beta I', 'Gas giant moon with swirling atmospheric storms', 10000, 150000, 2);
+INSERT INTO public.moon VALUES (6, 'Beta II', 'Moons of varying sizes around the gas giant', 30000, 130000, 2);
+INSERT INTO public.moon VALUES (7, 'Beta III', 'Massive moon orbiting the gas giant', 50000, 180000, 2);
+INSERT INTO public.moon VALUES (8, 'Omega I', 'Gas giant moon with high radiation levels', 11000, 150000, 3);
+INSERT INTO public.moon VALUES (9, 'Omega II', 'Moon with strange mineral deposits and high gravity', 7000, 120000, 3);
+INSERT INTO public.moon VALUES (10, 'Minor I', 'Small rocky moon with low gravity', 4000, 8000, 4);
+INSERT INTO public.moon VALUES (11, 'Minor II', 'Moon with significant tectonic activity', 4500, 9000, 4);
+INSERT INTO public.moon VALUES (12, 'Proxima I', 'Potentially habitable moon with water and an atmosphere', 6000, 15000, 5);
+INSERT INTO public.moon VALUES (13, 'Proxima II', 'Moon with large canyons and desert terrain', 3500, 20000, 5);
+INSERT INTO public.moon VALUES (14, 'Proxima III', 'Moon with thick clouds and storms', 4000, 25000, 6);
+INSERT INTO public.moon VALUES (15, 'Proxima IV', 'Cold barren moon with little atmosphere', 3000, 30000, 6);
+INSERT INTO public.moon VALUES (16, 'Vega I', 'Ice moon with glacial plains', 12000, 25000, 7);
+INSERT INTO public.moon VALUES (17, 'Vega II', 'Rocky moon with large mountain ranges', 15000, 30000, 7);
+INSERT INTO public.moon VALUES (18, 'Gamma I', 'Lava moon with constant volcanic eruptions', 7000, 12000, 9);
+INSERT INTO public.moon VALUES (19, 'Gamma II', 'Moon covered with molten lava flows', 9000, 15000, 9);
+INSERT INTO public.moon VALUES (20, 'Delta I', 'Frozen moon with methane ice caps', 13000, 10000, 10);
 
 
 --
@@ -334,18 +334,8 @@ INSERT INTO public.planet VALUES (7, 'Vega Prime', 'Massive ice giant', 52000, 7
 INSERT INTO public.planet VALUES (8, 'Vega Minor', 'Dense rocky planet with volcanic activity', 10000, 210, 4800000000000000000000000.00, 'Milky Way', 10);
 INSERT INTO public.planet VALUES (9, 'Aldebaran Gamma', 'Molten lava world close to red giant', 22000, 90, 2600000000000000000000000.00, 'Milky Way', 11);
 INSERT INTO public.planet VALUES (10, 'Aldebaran Delta', 'Frozen outer planet with methane atmosphere', 38000, 3650, 140000000000000000000000000.00, 'Milky Way', 11);
-INSERT INTO public.planet VALUES (11, 'Sirius Prime', 'Rocky terrestrial planet with harsh radiation environment', 12000, 180, 5970000000000000000000000.00, 'Milky Way', 7);
-INSERT INTO public.planet VALUES (12, 'Sirius Beta', 'Gas giant with vibrant blue atmospheric bands', 142000, 540, 190000000000000000000000000.00, 'Milky Way', 7);
-INSERT INTO public.planet VALUES (13, 'Betelgeuse Omega', 'Massive gas giant near end-of-life star', 215000, 3650, 350000000000000000000000000.00, 'Milky Way', 8);
-INSERT INTO public.planet VALUES (14, 'Betelgeuse Minor', 'Small rocky world in wide orbit', 6000, 7300, 33000000000000000000000.00, 'Milky Way', 8);
-INSERT INTO public.planet VALUES (15, 'Proxima b', 'Potentially habitable exoplanet', 14000, 11, 117000000000000000000000.00, 'Milky Way', 9);
-INSERT INTO public.planet VALUES (16, 'Proxima c', 'Cold super-Earth in outer system', 18000, 5, 710000000000000000000000.00, 'Milky Way', 9);
-INSERT INTO public.planet VALUES (17, 'Vega Prime', 'Massive ice giant', 52000, 730, 8700000000000000000000000.00, 'Milky Way', 10);
-INSERT INTO public.planet VALUES (18, 'Vega Minor', 'Dense rocky planet with volcanic activity', 10000, 210, 480000000000000000000000.00, 'Milky Way', 10);
-INSERT INTO public.planet VALUES (19, 'Aldebaran Gamma', 'Molten lava world close to red giant', 22000, 90, 260000000000000000000000.00, 'Milky Way', 11);
-INSERT INTO public.planet VALUES (20, 'Aldebaran Delta', 'Frozen outer planet with methane atmosphere', 38000, 3650, 14000000000000000000000000.00, 'Milky Way', 11);
-INSERT INTO public.planet VALUES (21, 'Antares Alpha', 'Supermassive gas giant', 320000, 2190, 1200000000000000000000000000.00, 'Milky Way', 12);
-INSERT INTO public.planet VALUES (22, 'Antares Beta', 'Rocky desert planet with extreme temperature variations', 16000, 540, 520000000000000000000000.00, 'Milky Way', 12);
+INSERT INTO public.planet VALUES (11, 'Antares Alpha', 'Supermassive gas giant', 320000, 2190, 1200000000000000000000000000.00, 'Milky Way', 12);
+INSERT INTO public.planet VALUES (12, 'Antares Beta', 'Rocky desert planet with extreme temperature variations', 16000, 540, 520000000000000000000000.00, 'Milky Way', 12);
 
 
 --
@@ -364,7 +354,7 @@ INSERT INTO public.star VALUES (12, 'Antares', 'A red supergiant in the Scorpius
 -- Name: black_hole_black_hole_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
-SELECT pg_catalog.setval('public.black_hole_black_hole_id_seq', 1, false);
+SELECT pg_catalog.setval('public.black_hole_black_hole_id_seq', 3, true);
 
 
 --
@@ -378,7 +368,7 @@ SELECT pg_catalog.setval('public.galaxy_galaxy_id_seq', 6, true);
 -- Name: moon_moon_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
-SELECT pg_catalog.setval('public.moon_moon_id_seq', 23, true);
+SELECT pg_catalog.setval('public.moon_moon_id_seq', 20, true);
 
 
 --
@@ -393,6 +383,14 @@ SELECT pg_catalog.setval('public.planet_planet_id_seq', 22, true);
 --
 
 SELECT pg_catalog.setval('public.star_star_id_seq', 12, true);
+
+
+--
+-- Name: black_hole black_hole_galaxy_id_name_key; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.black_hole
+    ADD CONSTRAINT black_hole_galaxy_id_name_key UNIQUE (galaxy_id, name);
 
 
 --
@@ -412,6 +410,14 @@ ALTER TABLE ONLY public.galaxy
 
 
 --
+-- Name: moon moon_name_key; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.moon
+    ADD CONSTRAINT moon_name_key UNIQUE (name);
+
+
+--
 -- Name: moon moon_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
@@ -420,11 +426,27 @@ ALTER TABLE ONLY public.moon
 
 
 --
+-- Name: planet planet_name_key; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.planet
+    ADD CONSTRAINT planet_name_key UNIQUE (name);
+
+
+--
 -- Name: planet planet_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
 ALTER TABLE ONLY public.planet
     ADD CONSTRAINT planet_pkey PRIMARY KEY (planet_id);
+
+
+--
+-- Name: star star_name_key; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.star
+    ADD CONSTRAINT star_name_key UNIQUE (name);
 
 
 --
